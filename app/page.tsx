@@ -1,23 +1,107 @@
 "use client";
-import { FaUsers,  FaChartLine, FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
+import { useState, useEffect } from "react";
+import {
+  FaUsers,
+  FaChartLine,
+  
+  
+  FaSearch,
+  
+  FaCheck,
+  FaChevronDown,
+} from "react-icons/fa";
+import CampaignStats from './components/dashboard/CampaignStats';
+import CampaignMetrics from './components/dashboard/CampaignMetrics'; 
+import RecentActivity from './components/dashboard/RecentActivity'; // Import component mới
+
 
 // Data mẫu
-const campaignData = {
+interface CampaignObjectives {
+  totalReviews: number;
+  achievedReviews: number; // Chỉ số đạt được
+  totalInfluencers: number;
+  achievedInfluencers: number; // Chỉ số đạt được
+  totalInteractions: number;
+  achievedInteractions: number; // Chỉ số đạt được
+}
+
+interface CampaignStock {
+  total: number;
+  used: number;
+  remaining: number;
+}
+
+interface CampaignInfluencers {
+  contacted: number;
+  targetContacts: number;
+  agreementRate: number;
+  status: {
+    notContacted: number;
+    contacting: number;
+    agreed: number;
+    received: number;
+    posted: number;
+  };
+}
+
+interface CampaignPosts {
+  completed: number;
+  target: number;
+  platforms: {
+    instagram: number;
+    facebook: number;
+    tiktok: number;
+  };
+  engagement: {
+    likes: number;
+    comments: number;
+    shares: number;
+    views: number;
+  };
+}
+
+interface CampaignInvestment {
+  cost: number;
+  revenue: number;
+}
+
+interface CampaignData {
+  name: string;
+  objectives: CampaignObjectives;
+  stock: CampaignStock;
+  influencers: CampaignInfluencers;
+  posts: CampaignPosts;
+  investment: CampaignInvestment;
+  progress: number; // Tiến độ chiến dịch (%)
+}
+
+// Data mẫu
+const campaignData: CampaignData = {
   name: "Summer Collection 2024",
   objectives: {
-    totalReviews: 100,
-    totalInfluencers: 50,
-    totalInteractions: 10000
+    totalReviews: 800,
+    achievedReviews: 640, // Chỉ số đạt được
+    totalInfluencers: 100,
+    achievedInfluencers: 80, // Chỉ số đạt được
+    totalInteractions: 900,
+    achievedInteractions: 810, // Chỉ số đạt được
   },
   stock: {
     total: 100,
     used: 50,
-    remaining: 50
+    remaining: 50,
   },
   influencers: {
     contacted: 50,
     targetContacts: 100,
-    agreementRate: 20
+    agreementRate: 20,
+    status: {
+      notContacted: 20,
+      contacting: 10,
+      agreed: 10,
+      received: 10,
+      posted: 10,
+    },
   },
   posts: {
     completed: 10,
@@ -25,241 +109,403 @@ const campaignData = {
     platforms: {
       instagram: 40,
       facebook: 35,
-      tiktok: 25
+      tiktok: 25,
     },
     engagement: {
       likes: 5000,
       comments: 1000,
       shares: 800,
-      views: 50000
-    }
-  }
+      views: 50000,
+    },
+  },
+  investment: {
+    cost: 1000000,
+    revenue: 1200000,
+  },
+  progress: 60,
 };
 
+// Thêm interfaces
+interface FilterOption {
+  label: string;
+  value: string;
+}
+
+// Thêm interface cho category
+interface FilterCategory {
+  label: string;
+  value: string;
+  options: FilterOption[];
+}
+
+// Tổ chức lại filter options theo category
+const filterCategories: FilterCategory[] = [
+  {
+    label: "Trạng thái",
+    value: "status",
+    options: [
+      { label: "Chưa liên hệ", value: "not_contacted" },
+      { label: "Đang liên hệ", value: "contacting" },
+      { label: "Đã đồng ý", value: "agreed" },
+      { label: "Đã nhận sản phẩm", value: "received" },
+      { label: "Đã đăng", value: "posted" },
+    ],
+  },
+  {
+    label: "Stock",
+    value: "stock",
+    options: [
+      { label: "0-25%", value: "stock_0_25" },
+      { label: "26-50%", value: "stock_26_50" },
+      { label: "51-75%", value: "stock_51_75" },
+      { label: "76-100%", value: "stock_76_100" },
+    ],
+  },
+  {
+    label: "Hiệu quả",
+    value: "performance",
+    options: [
+      { label: "Cao", value: "high_performance" },
+      { label: "Trung bình", value: "medium_performance" },
+      { label: "Thấp", value: "low_performance" },
+    ],
+  },
+];
+
+// Data mẫu
+const activities = [
+  { id: 1, description: 'Chiến dịch "Giảm giá ngày lễ" đã bắt đầu với 10 influencer.', time: '3 phút trước', likes: 323, comments: 32, shares: 32 },
+  { id: 2, description: 'Cập nhật ngân sách: $50,000 đã được phân bổ cho tháng 12.', time: '1 phút trước', likes: 1, comments: 2, shares: 2 },
+  { id: 3, description: 'Bài đăng mới: Influencer A - "Khuyến mãi ngày lễ"', time: 'Vừa xong', likes: 500, comments: 50, shares: 10 },
+  { id: 4, description: 'Cập nhật sản phẩm: 20 mặt hàng mới đã được thêm vào kho cho "Chiến dịch mùa đông".', time: '2 giờ trước', likes: 1, comments: 3, shares: 5 },
+  { id: 5, description: 'Đã hoàn thành báo cáo chiến dịch.', time: '1 ngày trước', likes: 66, comments: 43, shares:12 },
+];
+
 export default function Dashboard() {
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("default"); // Thêm trạng thái mặc định
+  const [openCategory, setOpenCategory] = useState<string | null>(null);
+  const [showSortDropdown, setShowSortDropdown] = useState(false);
+
+  // Khởi tạo với tất cả filters được chọn
+  useEffect(() => {
+    const allFilters = filterCategories.flatMap((cat) =>
+      cat.options.map((opt) => opt.value)
+    );
+    setSelectedFilters(allFilters);
+  }, []);
+
+  // Hàm xử lý chọn tất cả trong một category
+  const handleSelectAllCategory = (category: FilterCategory) => {
+    const categoryValues = category.options.map((opt) => opt.value);
+    const otherFilters = selectedFilters.filter(
+      (f) => !categoryValues.includes(f)
+    );
+    setSelectedFilters([...otherFilters, ...categoryValues]);
+  };
+
+  // Hàm xử lý bỏ chọn tất cả trong một category
+  const handleUnselectAllCategory = (category: FilterCategory) => {
+    const categoryValues = category.options.map((opt) => opt.value);
+    setSelectedFilters(
+      selectedFilters.filter((f) => !categoryValues.includes(f))
+    );
+  };
+
+  // Sort options với trạng thái mặc định
+  const sortOptions = [
+    { label: "Mặc định", value: "default" },
+    { label: "Tên A-Z", value: "name_asc" },
+    { label: "Tên Z-A", value: "name_desc" },
+    { label: "Trạng thái: Mới → Cũ", value: "status_asc" },
+    { label: "Trạng thái: Cũ → Mới", value: "status_desc" },
+    { label: "Hiệu quả: Cao → Thấp", value: "performance_desc" },
+    { label: "Hiệu quả: Thấp → Cao", value: "performance_asc" },
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-8">
-      {/* Campaign Header */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
-        <h1 className="text-2xl font-bold mb-2">{campaignData.name}</h1>
-      </div>
-{/* Search and Filter Section */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
-        <h2 className="text-xl font-bold mb-4">Tìm kiếm & Lọc</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <input 
-            type="text" 
-            placeholder="Tìm theo tên Influencer/Campaign"
-            className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-          />
-          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <option value="">Trạng thái liên hệ</option>
-            <option value="not_contacted">Chưa liên hệ</option>
-            <option value="contacting">Đang liên hệ</option>
-            <option value="agreed">Đã đồng ý</option>
-            <option value="received">Đã nhận sản phẩm</option>
-            <option value="posted">Đã đăng</option>
-          </select>
-          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <option value="">Stock đã sử dụng</option>
-            <option value="0-25">0-25</option>
-            <option value="26-50">26-50</option>
-            <option value="51-75">51-75</option>
-            <option value="76-100">76-100</option>
-          </select>
-          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <option value="">Hiệu quả bài đăng</option>
-            <option value="views">Lượt xem</option>
-            <option value="likes">Lượt thích</option>
-            <option value="comments">Bình luận</option>
-            <option value="shares">Chia sẻ</option>
-          </select>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
+      <div className="max-w-6xl mx-auto">
+        {/* Campaign Header */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            {campaignData.name}
+          </h1>
 
-      {/* Sort Options */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <h2 className="text-xl font-bold mb-4">Sắp xếp</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <option value="">Tên Influencer</option>
-            <option value="asc">A-Z</option>
-            <option value="desc">Z-A</option>
-          </select>
-          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <option value="">Trạng thái liên hệ</option>
-            <option value="asc">Chưa liên hệ → Đã đăng</option>
-            <option value="desc">Đã đăng → Chưa liên hệ</option>
-          </select>
-          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <option value="">Số lượng bài đăng</option>
-            <option value="desc">Nhiều nhất → Ít nhất</option>
-            <option value="asc">Ít nhất → Nhiều nhất</option>
-          </select>
-          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <option value="">Hiệu quả bài đăng</option>
-            <option value="desc">Cao → Thấp</option>
-            <option value="asc">Thấp → Cao</option>
-          </select>
-        </div>
-      </div>
-      {/* Campaign Objectives */}
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <div className="flex items-center mb-2">
-            <FaChartLine className="text-blue-500 mr-2" />
-            <h3 className="font-semibold">Mục tiêu Reviews</h3>
-          </div>
-          <p className="text-2xl font-bold">{campaignData.objectives.totalReviews}</p>
-        </div>
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <div className="flex items-center mb-2">
-            <FaUsers className="text-green-500 mr-2" />
-            <h3 className="font-semibold">Mục tiêu Influencers</h3>
-          </div>
-          <p className="text-2xl font-bold">{campaignData.objectives.totalInfluencers}</p>
-        </div>
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <div className="flex items-center mb-2">
-            <FaChartLine className="text-purple-500 mr-2" />
-            <h3 className="font-semibold">Mục tiêu Tương tác</h3>
-          </div>
-          <p className="text-2xl font-bold">{campaignData.objectives.totalInteractions}</p>
-        </div>
-      </div>
-
-      {/* Stock Information */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
-        <h2 className="text-xl font-bold mb-4">Thông tin Stock</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
-          <div>
-            <h3 className="font-semibold mb-2">Tổng số stock</h3>
-            <p className="text-2xl font-bold">{campaignData.stock.total}</p>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-2">Đã sử dụng</h3>
-            <p className="text-2xl font-bold">{campaignData.stock.used}</p>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-2">Còn lại</h3>
-            <p className="text-2xl font-bold">{campaignData.stock.remaining}</p>
-          </div>
-        </div>
-        <div className="w-full bg-gray-200 rounded-full h-2.5">
-          <div 
-            className="bg-blue-600 h-2.5 rounded-full" 
-            style={{ width: `${(campaignData.stock.used / campaignData.stock.total) * 100}%` }}
-          ></div>
-        </div>
-      </div>
-
-      {/* Influencer Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <h2 className="text-xl font-bold mb-4">Thống kê Influencer</h2>
-          <div className="mb-4">
-            <h3 className="font-semibold mb-2">Đã liên hệ</h3>
-            <p className="text-2xl font-bold">
-              {campaignData.influencers.contacted}/{campaignData.influencers.targetContacts}
-            </p>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-2">Tỷ lệ đồng ý</h3>
-            <p className="text-2xl font-bold">{campaignData.influencers.agreementRate}%</p>
-          </div>
-        </div>
-
-        {/* Post Status */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <h2 className="text-xl font-bold mb-4">Trạng thái Post</h2>
-          <div className="mb-4">
-            <h3 className="font-semibold mb-2">Posts đã hoàn thành</h3>
-            <p className="text-2xl font-bold">
-              {campaignData.posts.completed}/{campaignData.posts.target}
-            </p>
-          </div>
-          <div className="flex items-center justify-between mt-4">
-            <div className="flex items-center">
-              <FaInstagram className="text-pink-500 mr-2" />
-              <span>{campaignData.posts.platforms.instagram}%</span>
+          {/* Objectives Section */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Reviews Target */}
+            <div className="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-full mr-4">
+                <FaChartLine className="text-blue-600 dark:text-blue-400 text-xl" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Mục tiêu Reviews
+                </p>
+                <p className="text-xl font-semibold text-gray-900 dark:text-white">
+                  {campaignData.objectives.achievedReviews} / {campaignData.objectives.totalReviews}
+                </p>
+                <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                  <div
+                    className="bg-blue-500 h-2.5 rounded-full"
+                    style={{
+                      width: `${(campaignData.objectives.achievedReviews / campaignData.objectives.totalReviews) * 100}%`,
+                    }}
+                  ></div>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center">
-              <FaFacebook className="text-blue-500 mr-2" />
-              <span>{campaignData.posts.platforms.facebook}%</span>
+
+            {/* Influencers Target */}
+            <div className="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div className="p-3 bg-green-100 dark:bg-green-900 rounded-full mr-4">
+                <FaUsers className="text-green-600 dark:text-green-400 text-xl" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Mục tiêu Influencers
+                </p>
+                <p className="text-xl font-semibold text-gray-900 dark:text-white">
+                  {campaignData.objectives.achievedInfluencers} / {campaignData.objectives.totalInfluencers}
+                </p>
+                <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                  <div
+                    className="bg-green-500 h-2.5 rounded-full"
+                    style={{
+                      width: `${(campaignData.objectives.achievedInfluencers / campaignData.objectives.totalInfluencers) * 100}%`,
+                    }}
+                  ></div>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center">
-              <FaTiktok className="text-black mr-2" />
-              <span>{campaignData.posts.platforms.tiktok}%</span>
+
+            {/* Interactions Target */}
+            <div className="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div className="p-3 bg-purple-100 dark:bg-purple-900 rounded-full mr-4">
+                <FaChartLine className="text-purple-600 dark:text-purple-400 text-xl" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Mục tiêu Tương tác
+                </p>
+                <p className="text-xl font-semibold text-gray-900 dark:text-white">
+                  {campaignData.objectives.achievedInteractions} / {campaignData.objectives.totalInteractions}
+                </p>
+                <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                  <div
+                    className="bg-purple-500 h-2.5 rounded-full"
+                    style={{
+                      width: `${(campaignData.objectives.achievedInteractions / campaignData.objectives.totalInteractions) * 100}%`,
+                    }}
+                  ></div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Engagement Metrics */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
-        <h2 className="text-xl font-bold mb-4">Hiệu quả tương tác</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div>
-            <h3 className="font-semibold mb-2">Lượt xem</h3>
-            <p className="text-2xl font-bold">{campaignData.posts.engagement.views}</p>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-2">Lượt thích</h3>
-            <p className="text-2xl font-bold">{campaignData.posts.engagement.likes}</p>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-2">Bình luận</h3>
-            <p className="text-2xl font-bold">{campaignData.posts.engagement.comments}</p>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-2">Chia sẻ</h3>
-            <p className="text-2xl font-bold">{campaignData.posts.engagement.shares}</p>
-          </div>
         </div>
-      </div>
 
-      {/* ROI Metrics */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
-        <h2 className="text-xl font-bold mb-4">Hiệu quả đầu tư</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div>
-            <h3 className="font-semibold mb-2">Chi phí chiến dịch</h3>
-            <p className="text-2xl font-bold">1,000,000 VNĐ</p>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-2">Doanh thu</h3>
-            <p className="text-2xl font-bold">1,200,000 VNĐ</p>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-2">ROI</h3>
-            <p className="text-2xl font-bold text-green-500">120%</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Campaign Timeline */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
-        <h2 className="text-xl font-bold mb-4">Tiến độ chiến dịch</h2>
-        <div className="relative pt-1">
-          <div className="flex mb-2 items-center justify-between">
-            <div>
-              <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
-                Đang thực hiện
-              </span>
+        {/* Search and Filter Section */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
+          <div className="flex flex-col space-y-4">
+            {/* Search Bar */}
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaSearch className="text-gray-400" />
+              </div>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Tìm kiếm..."
+                className="w-full pl-10 pr-4 py-2 border rounded-lg bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
             </div>
-            <div className="text-right">
-              <span className="text-xs font-semibold inline-block text-blue-600">
-                60%
-              </span>
+
+            {/* Filter and Sort Row */}
+            <div className="flex items-center gap-4">
+              {/* Filter Categories */}
+              <div className="flex gap-4">
+                {filterCategories.map((category) => (
+                  <div key={category.value} className="relative">
+                    <button
+                      onClick={() =>
+                        setOpenCategory(
+                          openCategory === category.value ? null : category.value
+                        )
+                      }
+                      className="px-3 py-1 text-sm text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                    >
+                      {category.label}
+                    </button>
+
+                    {/* Dropdown Menu */}
+                    {openCategory === category.value && (
+                      <div className="absolute z-10 mt-1 bg-white dark:bg-gray-800 rounded-lg shadow-lg min-w-[200px]">
+                        {/* Header với "Chọn tất cả" */}
+                        <div className="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
+                          <button
+                            onClick={() => {
+                              const categoryValues = category.options.map(
+                                (opt) => opt.value
+                              );
+                              const allSelected = categoryValues.every((value) =>
+                                selectedFilters.includes(value)
+                              );
+                              if (allSelected) {
+                                handleUnselectAllCategory(category);
+                              } else {
+                                handleSelectAllCategory(category);
+                              }
+                            }}
+                            className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
+                          >
+                            Chọn tất cả
+                          </button>
+                        </div>
+
+                        {/* Options */}
+                        <div className="py-1">
+                          {category.options.map((option) => (
+                            <button
+                              key={option.value}
+                              onClick={() => {
+                                if (selectedFilters.includes(option.value)) {
+                                  setSelectedFilters(
+                                    selectedFilters.filter(
+                                      (f) => f !== option.value
+                                    )
+                                  );
+                                } else {
+                                  setSelectedFilters([
+                                    ...selectedFilters,
+                                    option.value,
+                                  ]);
+                                }
+                              }}
+                              className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center"
+                            >
+                              <span className="w-5">
+                                {selectedFilters.includes(option.value) && (
+                                  <FaCheck className="text-blue-500" />
+                                )}
+                              </span>
+                              {option.label}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Footer với nút "Xong" */}
+                        <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-700 flex justify-end">
+                          <button
+                            onClick={() => setOpenCategory(null)}
+                            className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium"
+                          >
+                            Xong
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Sort Dropdown */}
+              <div className="relative ml-auto">
+                <button
+                  onClick={() => setShowSortDropdown(!showSortDropdown)}
+                  className="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                >
+                  <span className="mr-1">
+                    {sortBy === "default"
+                      ? "Sắp xếp theo"
+                      : sortOptions.find((opt) => opt.value === sortBy)?.label}
+                  </span>
+                  <FaChevronDown
+                    className={`transition-transform duration-200 ${
+                      showSortDropdown ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {showSortDropdown && (
+                  <div className="absolute right-0 mt-1 py-1 bg-white dark:bg-gray-800 rounded-lg shadow-lg min-w-[180px] z-20">
+                    {sortOptions.map((option) => (
+                      <button
+                        key={option.value}
+                        onClick={() => {
+                          setSortBy(option.value);
+                          setShowSortDropdown(false);
+                        }}
+                        className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center"
+                      >
+                        <span className="w-5">
+                          {sortBy === option.value && (
+                            <FaCheck className="text-blue-500" />
+                          )}
+                        </span>
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
-            <div className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500" style={{ width: '60%' }}></div>
+
+            {/* Selected Filters */}
+            {selectedFilters.length > 0 && (
+              <div className="flex items-center gap-2 pt-2 border-t border-gray-200 dark:border-gray-600">
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  Bộ lọc đã chọn:
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {selectedFilters.map((filter) => {
+                    const option = filterCategories
+                      .flatMap((cat) => cat.options)
+                      .find((opt) => opt.value === filter);
+
+                    return (
+                      option && (
+                        <span
+                          key={filter}
+                          className="inline-flex items-center px-2 py-1 text-xs bg-blue-50 dark:bg-blue-900/50 text-blue-700 dark:text-blue-200 rounded-full"
+                        >
+                          {option.label}
+                          <button
+                            onClick={() =>
+                              setSelectedFilters(
+                                selectedFilters.filter((f) => f !== filter)
+                              )
+                            }
+                            className="ml-1 hover:text-blue-600 dark:hover:text-blue-400"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      )
+                    );
+                  })}
+                  <button
+                    onClick={() => setSelectedFilters([])}
+                    className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                  >
+                    Xóa tất cả
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-      </div>
 
-      
+        {/* Campaign Stats */}
+        <CampaignStats data={campaignData} />
+        <CampaignMetrics campaignData={campaignData} />
+        
+          {/* Recent Activity Section */}
+          <RecentActivity activities={activities} />
+      </div>
     </div>
   );
 }
