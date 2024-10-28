@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import CampaignStats from '../components/dashboard/CampaignStats';
 import CampaignMetrics from '../components/dashboard/CampaignMetrics'; 
+import RecentActivity from '../components/dashboard/RecentActivity'; // Import component mới
 
 
 // Data mẫu
@@ -171,6 +172,15 @@ const filterCategories: FilterCategory[] = [
   },
 ];
 
+// Data mẫu
+const activities = [
+  { id: 1, description: 'Chiến dịch "Giảm giá ngày lễ" đã bắt đầu với 10 influencer.', time: '3 phút trước', likes: 323, comments: 32, shares: 32 },
+  { id: 2, description: 'Cập nhật ngân sách: $50,000 đã được phân bổ cho tháng 12.', time: '1 phút trước', likes: 1, comments: 2, shares: 2 },
+  { id: 3, description: 'Bài đăng mới: Influencer A - "Khuyến mãi ngày lễ"', time: 'Vừa xong', likes: 500, comments: 50, shares: 10 },
+  { id: 4, description: 'Cập nhật sản phẩm: 20 mặt hàng mới đã được thêm vào kho cho "Chiến dịch mùa đông".', time: '2 giờ trước', likes: 1, comments: 3, shares: 5 },
+  { id: 5, description: 'Đã hoàn thành báo cáo chiến dịch.', time: '1 ngày trước', likes: 66, comments: 43, shares:12 },
+];
+
 export default function Dashboard() {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -294,6 +304,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
+
         </div>
 
         {/* Search and Filter Section */}
@@ -491,6 +502,9 @@ export default function Dashboard() {
         {/* Campaign Stats */}
         <CampaignStats data={campaignData} />
         <CampaignMetrics campaignData={campaignData} />
+        
+          {/* Recent Activity Section */}
+          <RecentActivity activities={activities} />
       </div>
     </div>
   );
