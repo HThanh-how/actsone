@@ -43,9 +43,68 @@ export default function Dashboard() {
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
         <h1 className="text-2xl font-bold mb-2">{campaignData.name}</h1>
       </div>
+{/* Search and Filter Section */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
+        <h2 className="text-xl font-bold mb-4">Tìm kiếm & Lọc</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <input 
+            type="text" 
+            placeholder="Tìm theo tên Influencer/Campaign"
+            className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          />
+          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            <option value="">Trạng thái liên hệ</option>
+            <option value="not_contacted">Chưa liên hệ</option>
+            <option value="contacting">Đang liên hệ</option>
+            <option value="agreed">Đã đồng ý</option>
+            <option value="received">Đã nhận sản phẩm</option>
+            <option value="posted">Đã đăng</option>
+          </select>
+          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            <option value="">Stock đã sử dụng</option>
+            <option value="0-25">0-25</option>
+            <option value="26-50">26-50</option>
+            <option value="51-75">51-75</option>
+            <option value="76-100">76-100</option>
+          </select>
+          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            <option value="">Hiệu quả bài đăng</option>
+            <option value="views">Lượt xem</option>
+            <option value="likes">Lượt thích</option>
+            <option value="comments">Bình luận</option>
+            <option value="shares">Chia sẻ</option>
+          </select>
+        </div>
+      </div>
 
+      {/* Sort Options */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h2 className="text-xl font-bold mb-4">Sắp xếp</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            <option value="">Tên Influencer</option>
+            <option value="asc">A-Z</option>
+            <option value="desc">Z-A</option>
+          </select>
+          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            <option value="">Trạng thái liên hệ</option>
+            <option value="asc">Chưa liên hệ → Đã đăng</option>
+            <option value="desc">Đã đăng → Chưa liên hệ</option>
+          </select>
+          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            <option value="">Số lượng bài đăng</option>
+            <option value="desc">Nhiều nhất → Ít nhất</option>
+            <option value="asc">Ít nhất → Nhiều nhất</option>
+          </select>
+          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            <option value="">Hiệu quả bài đăng</option>
+            <option value="desc">Cao → Thấp</option>
+            <option value="asc">Thấp → Cao</option>
+          </select>
+        </div>
+      </div>
       {/* Campaign Objectives */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
           <div className="flex items-center mb-2">
             <FaChartLine className="text-blue-500 mr-2" />
@@ -200,66 +259,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Search and Filter Section */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
-        <h2 className="text-xl font-bold mb-4">Tìm kiếm & Lọc</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <input 
-            type="text" 
-            placeholder="Tìm theo tên Influencer/Campaign"
-            className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-          />
-          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <option value="">Trạng thái liên hệ</option>
-            <option value="not_contacted">Chưa liên hệ</option>
-            <option value="contacting">Đang liên hệ</option>
-            <option value="agreed">Đã đồng ý</option>
-            <option value="received">Đã nhận sản phẩm</option>
-            <option value="posted">Đã đăng</option>
-          </select>
-          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <option value="">Stock đã sử dụng</option>
-            <option value="0-25">0-25</option>
-            <option value="26-50">26-50</option>
-            <option value="51-75">51-75</option>
-            <option value="76-100">76-100</option>
-          </select>
-          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <option value="">Hiệu quả bài đăng</option>
-            <option value="views">Lượt xem</option>
-            <option value="likes">Lượt thích</option>
-            <option value="comments">Bình luận</option>
-            <option value="shares">Chia sẻ</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Sort Options */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <h2 className="text-xl font-bold mb-4">Sắp xếp</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <option value="">Tên Influencer</option>
-            <option value="asc">A-Z</option>
-            <option value="desc">Z-A</option>
-          </select>
-          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <option value="">Trạng thái liên hệ</option>
-            <option value="asc">Chưa liên hệ → Đã đăng</option>
-            <option value="desc">Đã đăng → Chưa liên hệ</option>
-          </select>
-          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <option value="">Số lượng bài đăng</option>
-            <option value="desc">Nhiều nhất → Ít nhất</option>
-            <option value="asc">Ít nhất → Nhiều nhất</option>
-          </select>
-          <select className="p-2 border rounded bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <option value="">Hiệu quả bài đăng</option>
-            <option value="desc">Cao → Thấp</option>
-            <option value="asc">Thấp → Cao</option>
-          </select>
-        </div>
-      </div>
+      
     </div>
   );
 }
