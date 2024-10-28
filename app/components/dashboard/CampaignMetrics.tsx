@@ -23,10 +23,10 @@ const CampaignMetrics: React.FC<CampaignMetricsProps> = ({ campaignData }) => {
     return new Intl.NumberFormat("vi-VN").format(num);
   };
 
-  const totalEngagement = campaignData.posts.engagement.views + 
-                          campaignData.posts.engagement.likes + 
-                          campaignData.posts.engagement.comments + 
-                          campaignData.posts.engagement.shares;
+  // const totalEngagement = campaignData.posts.engagement.views + 
+  //                         campaignData.posts.engagement.likes + 
+  //                         campaignData.posts.engagement.comments + 
+  //                         campaignData.posts.engagement.shares;
 
   // const engagementRate = totalEngagement / campaignData.progress * 100;
 
