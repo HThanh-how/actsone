@@ -13,9 +13,6 @@ import {
 import CampaignStats from '../components/dashboard/CampaignStats';
 import CampaignMetrics from '../components/dashboard/CampaignMetrics'; 
 
-const formatNumber = (num: number): string => {
-  return new Intl.NumberFormat("vi-VN").format(num);
-};
 
 // Data mẫu
 interface CampaignObjectives {

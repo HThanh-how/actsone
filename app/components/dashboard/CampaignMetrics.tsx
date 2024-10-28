@@ -28,7 +28,7 @@ const CampaignMetrics: React.FC<CampaignMetricsProps> = ({ campaignData }) => {
                           campaignData.posts.engagement.comments + 
                           campaignData.posts.engagement.shares;
 
-  const engagementRate = totalEngagement / campaignData.progress * 100;
+  // const engagementRate = totalEngagement / campaignData.progress * 100;
 
   return (
     <div className="mt-6 bg-white dark:bg-gray-800 rounded-lg shadow p-4">
