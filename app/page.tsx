@@ -1,5 +1,5 @@
 "use client";
-import { FaUsers, FaBoxOpen, FaChartLine, FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
+import { FaUsers,  FaChartLine, FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
 
 // Data mẫu
 const campaignData = {

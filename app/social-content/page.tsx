@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react';
 import Image from 'next/image';
-import { FaEye, FaThumbsUp, FaComment, FaShare, FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
+import { FaEye, FaThumbsUp, FaComment, FaShare, FaInstagram, } from 'react-icons/fa';
 
 export default function SocialContentPage() {
   const [sortBy, setSortBy] = useState('date');
