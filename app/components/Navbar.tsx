@@ -103,22 +103,22 @@ export default function Navbar() {
             >
               <FaUserCircle className="text-xl mr-1.5" />
               <span>Profile</span>
-              
             </button>
             {showOptions && (
-              <div ref={dropdownRef} className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+              <div ref={dropdownRef} className={`absolute left-0 mt-2 w-48 rounded-md shadow-lg z-10 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}`}>
                 <div className="py-1">
-                  <Link href="/" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">
+                  <Link href="/" className="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700" onClick={() => setShowOptions(false)}>
                     View Profile
                   </Link>
-                  <Link href="/" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">
+                  <Link href="/" className="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700" onClick={() => setShowOptions(false)}>
                     Settings
                   </Link>
                   <button
                     onClick={() => {
                       // Thêm logic đăng xuất ở đây
+                      setShowOptions(false);
                     }}
-                    className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200"
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700"
                   >
                     Logout
                   </button>
@@ -126,6 +126,8 @@ export default function Navbar() {
               </div>
             )}
           </div>
+
+          {/* Chuyển đổi chế độ sáng/tối */}
         </div>
       </div>
     </nav>
