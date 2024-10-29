@@ -1,17 +1,40 @@
 "use client";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FaChartBar, FaStream, FaUsers, FaUserCircle } from 'react-icons/fa';
+import { FaChartBar, FaStream, FaUsers, FaUserCircle, FaSun, FaMoon } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import useDarkMode from '../hooks/useDarkMode';
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [isDarkMode, setIsDarkMode] = useDarkMode() as [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+  const [showOptions, setShowOptions] = useState(false);
+  useEffect(() => {
+    // Thêm hoặc xóa class 'dark' cho body
+    if (isDarkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }, [isDarkMode]);
 
   const isActive = (path: string) => {
     return pathname === path ? 'bg-blue-700 text-white' : 'text-gray-300 hover:bg-blue-700 hover:text-white';
   };
+  const toggleDarkMode = () => {
+    setIsDarkMode(prevState => !prevState);
+  };
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }, [isDarkMode]);
 
   return (
-    <nav className="bg-blue-800 dark:bg-gray-900">
+    <nav className={`bg-blue-800 ${isDarkMode ? 'dark:bg-gray-900' : 'bg-blue-800'}`}>
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Brand */}
@@ -49,14 +72,21 @@ export default function Navbar() {
           </div>
 
           {/* User Profile */}
-          <div className="flex items-center">
-            <button
+          <div className="flex items-center relative">
+          <button onClick={toggleDarkMode} className="text-gray-300 hover:text-white ml-4">
+            {isDarkMode ? <FaSun className="text-xl" /> : <FaMoon className="text-xl" />}
+          </button>
+          </div>
+
+          {/* Chuyển đổi chế độ sáng/tối */}
+
+          <button
               className="flex items-center text-gray-300 hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              onClick={() => setShowOptions(!showOptions)}
             >
               <FaUserCircle className="text-xl mr-1.5" />
               <span>Profile</span>
             </button>
-          </div>
         </div>
       </div>
     </nav>

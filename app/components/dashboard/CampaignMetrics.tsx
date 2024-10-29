@@ -25,7 +25,7 @@ const CampaignMetrics: React.FC<CampaignMetricsProps> = ({ campaignData }) => {
 
   return (
     <div className="mt-6 bg-white dark:bg-gray-800 rounded-lg shadow p-4">
-      <h1 className="text-xl font-semibold mb-4">Campaign Progress</h1>
+      <h1 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Campaign Progress</h1>
 
       {/* Progress Bar for Campaign Progress */}
       <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">

@@ -9,7 +9,7 @@ export default function InfluencerNetwork() {
   
   return (
     // Change the main background color to gray-100
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 pt-6">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 pt-6 text-gray-500">
       {/* Add max-w-7xl to limit the container width */}
       <div className="container max-w-7xl mx-auto px-6">
         {/* Statistics Overview - Change component color */}

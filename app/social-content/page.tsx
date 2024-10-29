@@ -26,7 +26,7 @@ export default function SocialContentPage() {
               className="p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             />
             <select 
-              className="p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white text-gray-500"
               value={filterBy}
               onChange={(e) => setFilterBy(e.target.value)}
             >
@@ -36,7 +36,7 @@ export default function SocialContentPage() {
               <option value="tiktok">TikTok</option>
             </select>
             <select 
-              className="p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white text-gray-500"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
@@ -75,8 +75,8 @@ export default function SocialContentPage() {
                   className="rounded-full"
                 />
                 <div className="ml-2">
-                  <h3 className="font-semibold dark:text-white">Influencer Name</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Campaign ABC</p>
+                  <h3 className="font-semibold dark:text-white text-gray-900">Influencer Name</h3>
+                  <p className="text-sm text-gray-900 dark:text-gray-400 ">Campaign ABC</p>
                 </div>
               </div>
 
@@ -84,35 +84,35 @@ export default function SocialContentPage() {
               <div className="grid grid-cols-4 gap-2 mb-3">
                 <div className="flex items-center">
                   <FaEye className="mr-1 text-gray-500 dark:text-gray-400" />
-                  <span className="text-sm dark:text-white">1.2K</span>
+                  <span className="text-sm dark:text-white text-gray-500 ">1.2K</span>
                 </div>
                 <div className="flex items-center">
                   <FaThumbsUp className="mr-1 text-gray-500 dark:text-gray-400" />
-                  <span className="text-sm dark:text-white">500</span>
+                  <span className="text-sm dark:text-white text-gray-500">500</span>
                 </div>
                 <div className="flex items-center">
                   <FaComment className="mr-1 text-gray-500 dark:text-gray-400" />
-                  <span className="text-sm dark:text-white">100</span>
+                  <span className="text-sm dark:text-white text-gray-500">100</span>
                 </div>
                 <div className="flex items-center">
                   <FaShare className="mr-1 text-gray-500 dark:text-gray-400" />
-                  <span className="text-sm dark:text-white">50</span>
+                  <span className="text-sm dark:text-white text-gray-500">50</span>
                 </div>
               </div>
 
               {/* Additional Info */}
               <div className="border-t pt-3 dark:border-gray-700">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-semibold dark:text-white">GMV:</span>
-                  <span className="text-sm dark:text-white">1,000,000 VND</span>
+                  <span className="text-sm font-semibold dark:text-white text-gray-500">GMV:</span>
+                  <span className="text-sm dark:text-white text-gray-500">1,000,000 VND</span>
                 </div>
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-semibold dark:text-white">Products Sold:</span>
-                  <span className="text-sm dark:text-white">10</span>
+                  <span className="text-sm font-semibold dark:text-white text-gray-500">Products Sold:</span>
+                  <span className="text-sm dark:text-white text-gray-500">10</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-semibold dark:text-white">Commission:</span>
-                  <span className="text-sm dark:text-white">10%</span>
+                  <span className="text-sm font-semibold dark:text-white text-gray-500">Commission:</span>
+                  <span className="text-sm dark:text-white text-gray-500">10%</span>
                 </div>
               </div>
 
