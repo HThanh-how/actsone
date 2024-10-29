@@ -13,7 +13,7 @@ export default function SocialContentPage() {
         {/* Header Section */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-            Quản lý nội dung mạng xã hội
+            Social Media Content Management
           </h1>
         </div>
 
@@ -22,7 +22,7 @@ export default function SocialContentPage() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <input 
               type="text" 
-              placeholder="Tìm kiếm theo chiến dịch, thương hiệu..."
+              placeholder="Search by campaign, brand..."
               className="p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             />
             <select 
@@ -30,7 +30,7 @@ export default function SocialContentPage() {
               value={filterBy}
               onChange={(e) => setFilterBy(e.target.value)}
             >
-              <option value="all">Tất cả nền tảng</option>
+              <option value="all">All Platforms</option>
               <option value="instagram">Instagram</option>
               <option value="facebook">Facebook</option>
               <option value="tiktok">TikTok</option>
@@ -40,9 +40,9 @@ export default function SocialContentPage() {
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
-              <option value="date">Sắp xếp theo thời gian</option>
-              <option value="engagement">Sắp xếp theo tương tác</option>
-              <option value="commission">Sắp xếp theo hoa hồng</option>
+              <option value="date">Sort by Date</option>
+              <option value="engagement">Sort by Engagement</option>
+              <option value="commission">Sort by Commission</option>
             </select>
           </div>
         </div>
@@ -75,8 +75,8 @@ export default function SocialContentPage() {
                   className="rounded-full"
                 />
                 <div className="ml-2">
-                  <h3 className="font-semibold dark:text-white">Tên Influencer</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Chiến dịch ABC</p>
+                  <h3 className="font-semibold dark:text-white">Influencer Name</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Campaign ABC</p>
                 </div>
               </div>
 
@@ -104,14 +104,14 @@ export default function SocialContentPage() {
               <div className="border-t pt-3 dark:border-gray-700">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm font-semibold dark:text-white">GMV:</span>
-                  <span className="text-sm dark:text-white">1,000,000 VNĐ</span>
+                  <span className="text-sm dark:text-white">1,000,000 VND</span>
                 </div>
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-semibold dark:text-white">Sản phẩm bán:</span>
+                  <span className="text-sm font-semibold dark:text-white">Products Sold:</span>
                   <span className="text-sm dark:text-white">10</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-semibold dark:text-white">Hoa hồng:</span>
+                  <span className="text-sm font-semibold dark:text-white">Commission:</span>
                   <span className="text-sm dark:text-white">10%</span>
                 </div>
               </div>
@@ -122,7 +122,7 @@ export default function SocialContentPage() {
                   Commercial
                 </span>
                 <span className="px-2 py-1 text-xs rounded bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                  Đã đăng
+                  Posted
                 </span>
               </div>
             </div>

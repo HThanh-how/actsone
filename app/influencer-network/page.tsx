@@ -8,13 +8,13 @@ export default function InfluencerNetwork() {
   const [showDetails, setShowDetails] = useState(false);
   
   return (
-    // Thay đổi màu nền chính thành gray-100
+    // Change the main background color to gray-100
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 pt-6">
-      {/* Thêm max-w-7xl để giới hạn độ rộng container */}
+      {/* Add max-w-7xl to limit the container width */}
       <div className="container max-w-7xl mx-auto px-6">
-        {/* Statistics Overview - Thay đổi màu component */}
+        {/* Statistics Overview - Change component color */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mb-6">
-          {['Tổng KOLs', 'Newbie', 'Nano', 'Micro', 'Mid-Tier', 'Macro', 'Mega', 'Celebrity'].map((level) => (
+          {['Total KOLs', 'Newbie', 'Nano', 'Micro', 'Mid-Tier', 'Macro', 'Mega', 'Celebrity'].map((level) => (
             <div key={level} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
               <h3 className="text-sm font-semibold mb-2 dark:text-white">{level}</h3>
               <div className="flex items-center">
@@ -30,15 +30,15 @@ export default function InfluencerNetwork() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <input 
               type="text" 
-              placeholder="Tìm theo tên, số điện thoại..."
+              placeholder="Search by name, phone number..."
               className="p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             />
             <select className="p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-              <option>Chọn thành phố</option>
+              <option>Select city</option>
               {/* Add cities */}
             </select>
             <select className="p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-              <option>Chọn kênh chính</option>
+              <option>Select main channel</option>
               <option>Instagram</option>
               <option>Facebook</option>
               <option>TikTok</option>
@@ -49,18 +49,18 @@ export default function InfluencerNetwork() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <select className="p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-              <option>Chọn nghề nghiệp</option>
+              <option>Select occupation</option>
               {/* Add occupations */}
             </select>
             <select className="p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-              <option>Chọn thể loại nội dung</option>
+              <option>Select content genre</option>
               {/* Add content genres */}
             </select>
             <select className="p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-              <option>Thời gian hợp tác</option>
-              <option>30 ngày</option>
-              <option>60 ngày</option>
-              <option>90 ngày</option>
+              <option>Collaboration duration</option>
+              <option>30 days</option>
+              <option>60 days</option>
+              <option>90 days</option>
             </select>
           </div>
         </div>
@@ -80,7 +80,7 @@ export default function InfluencerNetwork() {
                   className="rounded-full"
                 />
                 <div className="ml-3">
-                  <h3 className="font-bold dark:text-white">Tên Influencer</h3>
+                  <h3 className="font-bold dark:text-white">Influencer Name</h3>
                   <span className="inline-block px-2 py-1 text-xs rounded bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
                     Micro Influencer
                   </span>
@@ -90,7 +90,7 @@ export default function InfluencerNetwork() {
               {/* Contact Info */}
               <div className="space-y-2 mb-4">
                 <a href="tel:+84123456789" className="flex items-center text-sm dark:text-white">
-                  <span className="w-24 text-gray-500 dark:text-gray-400">Điện thoại:</span>
+                  <span className="w-24 text-gray-500 dark:text-gray-400">Phone:</span>
                   +84 123 456 789
                 </a>
                 <a href="mailto:email@example.com" className="flex items-center text-sm dark:text-white">
@@ -98,14 +98,14 @@ export default function InfluencerNetwork() {
                   email@example.com
                 </a>
                 <div className="flex items-center text-sm dark:text-white">
-                  <span className="w-24 text-gray-500 dark:text-gray-400">Địa chỉ:</span>
-                  <span>Hà Nội, Việt Nam</span>
+                  <span className="w-24 text-gray-500 dark:text-gray-400">Address:</span>
+                  <span>Hanoi, Vietnam</span>
                 </div>
               </div>
 
               {/* Social Media */}
               <div className="border-t dark:border-gray-700 pt-4 mb-4">
-                <h4 className="font-semibold mb-2 dark:text-white">Mạng xã hội</h4>
+                <h4 className="font-semibold mb-2 dark:text-white">Social Media</h4>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex items-center">
                     <FaInstagram className="text-pink-500 mr-2" />
@@ -136,17 +136,17 @@ export default function InfluencerNetwork() {
                   onClick={() => setShowDetails(!showDetails)}
                   className="text-blue-500 hover:text-blue-600 dark:text-blue-400 text-sm"
                 >
-                  {showDetails ? 'Ẩn chi tiết' : 'Xem thêm'}
+                  {showDetails ? 'Hide details' : 'See more'}
                 </button>
                 
                 {showDetails && (
                   <div className="mt-4 space-y-2 text-sm">
                     <div className="flex">
-                      <span className="w-24 text-gray-500 dark:text-gray-400">Nghề nghiệp:</span>
+                      <span className="w-24 text-gray-500 dark:text-gray-400">Occupation:</span>
                       <span className="dark:text-white">Content Creator</span>
                     </div>
                     <div className="flex">
-                      <span className="w-24 text-gray-500 dark:text-gray-400">Thể loại:</span>
+                      <span className="w-24 text-gray-500 dark:text-gray-400">Genre:</span>
                       <span className="dark:text-white">Beauty, Fashion</span>
                     </div>
                     <div className="flex">
@@ -155,7 +155,7 @@ export default function InfluencerNetwork() {
                     </div>
                     {/* Only visible to Manager role */}
                     <div className="flex">
-                      <span className="w-24 text-gray-500 dark:text-gray-400">STK:</span>
+                      <span className="w-24 text-gray-500 dark:text-gray-400">Account Number:</span>
                       <span className="dark:text-white">1234567890</span>
                     </div>
                   </div>
@@ -168,7 +168,7 @@ export default function InfluencerNetwork() {
         {/* Update Followers Button */}
         <div className="fixed bottom-6 right-6">
           <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md">
-            Cập nhật followers
+            Update followers
           </button>
         </div>
       </div>
