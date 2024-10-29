@@ -97,7 +97,7 @@ const CampaignChart: React.FC<CampaignChartProps> = ({ data }) => {
       <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Campaign Insights</h3>
         <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
-          This chart provides an overview of the campaign's performance metrics, including reviews, influencers, interactions, costs, and revenue.
+          This chart provides an overview of the campaign&apos;s performance metrics, including reviews, influencers, interactions, costs, and revenue.
       <Bar data={chartData} options={options} />
         </p>
       </div>
