@@ -12,17 +12,17 @@ import {
 } from "react-icons/fa";
 import CampaignStats from './components/dashboard/CampaignStats';
 import CampaignMetrics from './components/dashboard/CampaignMetrics'; 
-import RecentActivity from './components/dashboard/RecentActivity'; // Import component mới
+import RecentActivity from './components/dashboard/RecentActivity'; // Import new component
+import CampaignChart from "./components/dashboard/CampaignChart";
 
-
-// Data mẫu
+// Sample data
 interface CampaignObjectives {
   totalReviews: number;
-  achievedReviews: number; // Chỉ số đạt được
+  achievedReviews: number; // Achieved metric
   totalInfluencers: number;
-  achievedInfluencers: number; // Chỉ số đạt được
+  achievedInfluencers: number; // Achieved metric
   totalInteractions: number;
-  achievedInteractions: number; // Chỉ số đạt được
+  achievedInteractions: number; // Achieved metric
 }
 
 interface CampaignStock {
@@ -72,19 +72,19 @@ interface CampaignData {
   influencers: CampaignInfluencers;
   posts: CampaignPosts;
   investment: CampaignInvestment;
-  progress: number; // Tiến độ chiến dịch (%)
+  progress: number; // Campaign progress (%)
 }
 
-// Data mẫu
+// Sample data
 const campaignData: CampaignData = {
   name: "Summer Collection 2024",
   objectives: {
     totalReviews: 800,
-    achievedReviews: 640, // Chỉ số đạt được
+    achievedReviews: 640, // Achieved metric
     totalInfluencers: 100,
-    achievedInfluencers: 80, // Chỉ số đạt được
+    achievedInfluencers: 80, // Achieved metric
     totalInteractions: 900,
-    achievedInteractions: 810, // Chỉ số đạt được
+    achievedInteractions: 810, // Achieved metric
   },
   stock: {
     total: 100,
@@ -125,30 +125,30 @@ const campaignData: CampaignData = {
   progress: 60,
 };
 
-// Thêm interfaces
+// Add interfaces
 interface FilterOption {
   label: string;
   value: string;
 }
 
-// Thêm interface cho category
+// Add interface for category
 interface FilterCategory {
   label: string;
   value: string;
   options: FilterOption[];
 }
 
-// Tổ chức lại filter options theo category
+// Organize filter options by category
 const filterCategories: FilterCategory[] = [
   {
-    label: "Trạng thái",
+    label: "Status",
     value: "status",
     options: [
-      { label: "Chưa liên hệ", value: "not_contacted" },
-      { label: "Đang liên hệ", value: "contacting" },
-      { label: "Đã đồng ý", value: "agreed" },
-      { label: "Đã nhận sản phẩm", value: "received" },
-      { label: "Đã đăng", value: "posted" },
+      { label: "Not Contacted", value: "not_contacted" },
+      { label: "Contacting", value: "contacting" },
+      { label: "Agreed", value: "agreed" },
+      { label: "Received Product", value: "received" },
+      { label: "Posted", value: "posted" },
     ],
   },
   {
@@ -162,33 +162,33 @@ const filterCategories: FilterCategory[] = [
     ],
   },
   {
-    label: "Hiệu quả",
+    label: "Performance",
     value: "performance",
     options: [
-      { label: "Cao", value: "high_performance" },
-      { label: "Trung bình", value: "medium_performance" },
-      { label: "Thấp", value: "low_performance" },
+      { label: "High", value: "high_performance" },
+      { label: "Medium", value: "medium_performance" },
+      { label: "Low", value: "low_performance" },
     ],
   },
 ];
 
-// Data mẫu
+// Sample data
 const activities = [
-  { id: 1, description: 'Chiến dịch "Giảm giá ngày lễ" đã bắt đầu với 10 influencer.', time: '3 phút trước', likes: 323, comments: 32, shares: 32 },
-  { id: 2, description: 'Cập nhật ngân sách: $50,000 đã được phân bổ cho tháng 12.', time: '1 phút trước', likes: 1, comments: 2, shares: 2 },
-  { id: 3, description: 'Bài đăng mới: Influencer A - "Khuyến mãi ngày lễ"', time: 'Vừa xong', likes: 500, comments: 50, shares: 10 },
-  { id: 4, description: 'Cập nhật sản phẩm: 20 mặt hàng mới đã được thêm vào kho cho "Chiến dịch mùa đông".', time: '2 giờ trước', likes: 1, comments: 3, shares: 5 },
-  { id: 5, description: 'Đã hoàn thành báo cáo chiến dịch.', time: '1 ngày trước', likes: 66, comments: 43, shares:12 },
+  { id: 1, description: 'Campaign "Holiday Sale" has started with 10 influencers.', time: '3 minutes ago', likes: 323, comments: 32, shares: 32 },
+  { id: 2, description: 'Budget update: $50,000 has been allocated for December.', time: '1 minute ago', likes: 1, comments: 2, shares: 2 },
+  { id: 3, description: 'New post: Influencer A - "Holiday Promotion"', time: 'Just now', likes: 500, comments: 50, shares: 10 },
+  { id: 4, description: 'Product update: 20 new items have been added to stock for "Winter Campaign".', time: '2 hours ago', likes: 1, comments: 3, shares: 5 },
+  { id: 5, description: 'Campaign report completed.', time: '1 day ago', likes: 66, comments: 43, shares:12 },
 ];
 
 export default function Dashboard() {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState("default"); // Thêm trạng thái mặc định
+  const [sortBy, setSortBy] = useState("default"); // Add default state
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [showSortDropdown, setShowSortDropdown] = useState(false);
 
-  // Khởi tạo với tất cả filters được chọn
+  // Initialize with all filters selected
   useEffect(() => {
     const allFilters = filterCategories.flatMap((cat) =>
       cat.options.map((opt) => opt.value)
@@ -196,7 +196,7 @@ export default function Dashboard() {
     setSelectedFilters(allFilters);
   }, []);
 
-  // Hàm xử lý chọn tất cả trong một category
+  // Handle select all in a category
   const handleSelectAllCategory = (category: FilterCategory) => {
     const categoryValues = category.options.map((opt) => opt.value);
     const otherFilters = selectedFilters.filter(
@@ -205,7 +205,7 @@ export default function Dashboard() {
     setSelectedFilters([...otherFilters, ...categoryValues]);
   };
 
-  // Hàm xử lý bỏ chọn tất cả trong một category
+  // Handle unselect all in a category
   const handleUnselectAllCategory = (category: FilterCategory) => {
     const categoryValues = category.options.map((opt) => opt.value);
     setSelectedFilters(
@@ -213,15 +213,15 @@ export default function Dashboard() {
     );
   };
 
-  // Sort options với trạng thái mặc định
+  // Sort options with default state
   const sortOptions = [
-    { label: "Mặc định", value: "default" },
-    { label: "Tên A-Z", value: "name_asc" },
-    { label: "Tên Z-A", value: "name_desc" },
-    { label: "Trạng thái: Mới → Cũ", value: "status_asc" },
-    { label: "Trạng thái: Cũ → Mới", value: "status_desc" },
-    { label: "Hiệu quả: Cao → Thấp", value: "performance_desc" },
-    { label: "Hiệu quả: Thấp → Cao", value: "performance_asc" },
+    { label: "Default", value: "default" },
+    { label: "Name A-Z", value: "name_asc" },
+    { label: "Name Z-A", value: "name_desc" },
+    { label: "Status: New → Old", value: "status_asc" },
+    { label: "Status: Old → New", value: "status_desc" },
+    { label: "Performance: High → Low", value: "performance_desc" },
+    { label: "Performance: Low → High", value: "performance_asc" },
   ];
 
   return (
@@ -242,7 +242,7 @@ export default function Dashboard() {
               </div>
               <div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Mục tiêu Reviews
+                  Reviews Target
                 </p>
                 <p className="text-xl font-semibold text-gray-900 dark:text-white">
                   {campaignData.objectives.achievedReviews} / {campaignData.objectives.totalReviews}
@@ -265,7 +265,7 @@ export default function Dashboard() {
               </div>
               <div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Mục tiêu Influencers
+                  Influencers Target
                 </p>
                 <p className="text-xl font-semibold text-gray-900 dark:text-white">
                   {campaignData.objectives.achievedInfluencers} / {campaignData.objectives.totalInfluencers}
@@ -288,7 +288,7 @@ export default function Dashboard() {
               </div>
               <div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Mục tiêu Tương tác
+                  Interactions Target
                 </p>
                 <p className="text-xl font-semibold text-gray-900 dark:text-white">
                   {campaignData.objectives.achievedInteractions} / {campaignData.objectives.totalInteractions}
@@ -319,7 +319,7 @@ export default function Dashboard() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Tìm kiếm..."
+                placeholder="Search..."
                 className="w-full pl-10 pr-4 py-2 border rounded-lg bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
@@ -344,7 +344,7 @@ export default function Dashboard() {
                     {/* Dropdown Menu */}
                     {openCategory === category.value && (
                       <div className="absolute z-10 mt-1 bg-white dark:bg-gray-800 rounded-lg shadow-lg min-w-[200px]">
-                        {/* Header với "Chọn tất cả" */}
+                        {/* Header with "Select All" */}
                         <div className="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
                           <button
                             onClick={() => {
@@ -362,7 +362,7 @@ export default function Dashboard() {
                             }}
                             className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
                           >
-                            Chọn tất cả
+                            Select All
                           </button>
                         </div>
 
@@ -397,13 +397,13 @@ export default function Dashboard() {
                           ))}
                         </div>
 
-                        {/* Footer với nút "Xong" */}
+                        {/* Footer with "Done" button */}
                         <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-700 flex justify-end">
                           <button
                             onClick={() => setOpenCategory(null)}
                             className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium"
                           >
-                            Xong
+                            Done
                           </button>
                         </div>
                       </div>
@@ -420,7 +420,7 @@ export default function Dashboard() {
                 >
                   <span className="mr-1">
                     {sortBy === "default"
-                      ? "Sắp xếp theo"
+                      ? "Sort by"
                       : sortOptions.find((opt) => opt.value === sortBy)?.label}
                   </span>
                   <FaChevronDown
@@ -458,7 +458,7 @@ export default function Dashboard() {
             {selectedFilters.length > 0 && (
               <div className="flex items-center gap-2 pt-2 border-t border-gray-200 dark:border-gray-600">
                 <span className="text-xs text-gray-500 dark:text-gray-400">
-                  Bộ lọc đã chọn:
+                  Selected Filters:
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {selectedFilters.map((filter) => {
@@ -491,7 +491,7 @@ export default function Dashboard() {
                     onClick={() => setSelectedFilters([])}
                     className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                   >
-                    Xóa tất cả
+                    Clear All
                   </button>
                 </div>
               </div>
@@ -502,7 +502,7 @@ export default function Dashboard() {
         {/* Campaign Stats */}
         <CampaignStats data={campaignData} />
         <CampaignMetrics campaignData={campaignData} />
-        
+        <CampaignChart data={campaignData} /> {/* Add the chart here */}
           {/* Recent Activity Section */}
           <RecentActivity activities={activities} />
       </div>
