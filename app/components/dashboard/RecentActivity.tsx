@@ -1,13 +1,13 @@
 import React from 'react';
-import { FaThumbsUp, FaComment, FaShare } from 'react-icons/fa'; // Import các icon
+import { FaThumbsUp, FaComment, FaShare } from 'react-icons/fa'; // Import icons
 
 interface Activity {
   id: number;
   description: string;
-  time: string; // Thêm thuộc tính thời gian
-  likes?: number; // Thêm thuộc tính lượt thích
-  comments?: number; // Thêm thuộc tính bình luận
-  shares?: number; // Thêm thuộc tính lượt chia sẻ
+  time: string; // Added time property
+  likes?: number; // Added likes property
+  comments?: number; // Added comments property
+  shares?: number; // Added shares property
 }
 
 interface RecentActivityProps {
@@ -17,9 +17,9 @@ interface RecentActivityProps {
 const RecentActivity: React.FC<RecentActivityProps> = ({ activities }) => {
   return (
     <div className="mt-6 bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
-      <h2 className="text-xl font-semibold mb-4">Hoạt động gần đây</h2>
+      <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-        Dưới đây là những hoạt động gần đây liên quan đến chiến dịch của bạn.
+        Here are the recent activities related to your campaign.
       </p>
       <ul className="list-disc pl-5">
         {activities.map((activity) => (

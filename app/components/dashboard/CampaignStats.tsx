@@ -34,29 +34,29 @@ interface CampaignStatsProps {
           tiktok: number;
         };
         engagement: {
-          views: number;      // Lượt xem
-          likes: number;      // Lượt thích
-          comments: number;   // Bình luận
-          shares: number;     // Chia sẻ
+          views: number;      // Views
+          likes: number;      // Likes
+          comments: number;   // Comments
+          shares: number;     // Shares
         };
       };
       investment: {
-        cost: number;          // Chi phí chiến dịch
-        revenue: number;       // Doanh thu
+        cost: number;          // Campaign cost
+        revenue: number;       // Revenue
       };
-      progress: number;        // Tiến độ chiến dịch (%)
+      progress: number;        // Campaign progress (%)
     };
-  }
+}
 
 const formatNumber = (num: number): string => {
-  return new Intl.NumberFormat('vi-VN').format(num);
+  return new Intl.NumberFormat('en-US').format(num); // Changed locale to English
 };
 
 export default function CampaignStats({ data }: CampaignStatsProps) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
       <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-        Thống kê chiến dịch
+        Campaign Statistics
       </h2>
 
       {/* Progress Overview */}
@@ -121,23 +121,23 @@ export default function CampaignStats({ data }: CampaignStatsProps) {
         {/* Stock Details */}
         <div>
           <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-3">
-            Thông tin Stock
+            Stock Information
           </h4>
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600 dark:text-gray-300">Tổng</span>
+              <span className="text-gray-600 dark:text-gray-300">Total</span>
               <span className="font-medium text-gray-900 dark:text-white">
                 {formatNumber(data.stock.total)}
               </span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600 dark:text-gray-300">Đã dùng</span>
+              <span className="text-gray-600 dark:text-gray-300">Used</span>
               <span className="font-medium text-gray-900 dark:text-white">
                 {formatNumber(data.stock.used)}
               </span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600 dark:text-gray-300">Còn lại</span>
+              <span className="text-gray-600 dark:text-gray-300">Remaining</span>
               <span className="font-medium text-gray-900 dark:text-white">
                 {formatNumber(data.stock.remaining)}
               </span>
@@ -148,35 +148,35 @@ export default function CampaignStats({ data }: CampaignStatsProps) {
         {/* Influencer Details */}
         <div>
           <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-3">
-            Thống kê Influencer
+            Influencer Statistics
           </h4>
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600 dark:text-gray-300">Chưa liên hệ</span>
+              <span className="text-gray-600 dark:text-gray-300">Not Contacted</span>
               <span className="font-medium text-gray-900 dark:text-white">
                 {formatNumber(data.influencers.status?.notContacted)}
               </span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600 dark:text-gray-300">Đang liên hệ</span>
+              <span className="text-gray-600 dark:text-gray-300">Contacting</span>
               <span className="font-medium text-gray-900 dark:text-white">
                 {formatNumber(data.influencers.status?.contacting)}
               </span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600 dark:text-gray-300">Đã đồng ý</span>
+              <span className="text-gray-600 dark:text-gray-300">Agreed</span>
               <span className="font-medium text-gray-900 dark:text-white">
                 {formatNumber(data.influencers.status?.agreed)}
               </span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600 dark:text-gray-300">Đã nhận SP</span>
+              <span className="text-gray-600 dark:text-gray-300">Received Product</span>
               <span className="font-medium text-gray-900 dark:text-white">
                 {formatNumber(data.influencers.status?.received)}
               </span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600 dark:text-gray-300">Đã đăng</span>
+              <span className="text-gray-600 dark:text-gray-300">Posted</span>
               <span className="font-medium text-gray-900 dark:text-white">
                 {formatNumber(data.influencers.status?.posted)}
               </span>
@@ -187,7 +187,7 @@ export default function CampaignStats({ data }: CampaignStatsProps) {
         {/* Post Details */}
         <div>
           <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-3">
-            Trạng thái Post
+            Post Status
           </h4>
           <div className="space-y-2">
             <div className="flex justify-between items-center text-sm">
@@ -217,7 +217,6 @@ export default function CampaignStats({ data }: CampaignStatsProps) {
           </div>
         </div>
       </div>
-      
     </div>
   );
 }
